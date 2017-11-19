@@ -6,8 +6,26 @@
       :host {
         display: block;
       }
+
+      button {
+        margin-top: 1rem;
+      }
+
+      .--container-slot {
+        margin-top: 1rem; 
+        margin-bottom: 1rem;
+      }
+
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <div>
+        <template is="dom-repeat" items="[[fields]]">
+          <input-generator configuration="{{item}}"></input-generator>
+        </template>
+        <div class="--container-slot">
+          <slot></slot>
+        </div>
+        <button on-click="handleClick">{{ actionTitle }}</button>
+    </div>
   </template>
 
   <script>
@@ -23,11 +41,26 @@
       static get is() { return 'form-evaluator-generator'; }
       static get properties() {
         return {
-          prop1: {
+          fields: {
+            type: Array,
+            value: []
+          },
+          actionTitle : {
             type: String,
-            value: 'form-evaluator-generator'
+            value: "Evalua prestamo"
           }
         };
+      }
+      handleClick (event) {
+        let inputs = this.shadowRoot.querySelectorAll('input-generator');
+        let data = [];
+        for (let i = 0; i < inputs.length; i++) {
+          data.push(inputs[i].getValue());
+        }
+        this.dispatchEvent(new CustomEvent('form-evaluator-submitted', {detail: data }));
+      }
+      ready () {
+        super.ready();
       }
     }
 
