@@ -103,7 +103,7 @@
         for (let i = 0; i < inputs.length; i++) {
           data.push(inputs[i].getValue());
         }
-        this.dispatchEvent(new CustomEvent('form-evaluator-submitted', {detail: data }));
+        this.dispatchEvent(new CustomEvent('form-evaluator-submitted', { bubbles: true, composed: true,detail: data }));
       }
       ready () {
         super.ready();
