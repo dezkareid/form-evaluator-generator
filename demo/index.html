@@ -7,13 +7,21 @@
     <title>form-evaluator-generator demo</title>
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-
+    <link rel="import" href="../../shadycss/apply-shim.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../form-evaluator-generator.html">
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
+          form-evaluator-generator {
+            --form-evaluator-button-theme: {
+              background-color: green;
+            }
+            --form-input-container-label: {
+              background-color: red;
+            }
+          }
       </style>
     </custom-style>
   </head>
