@@ -50,7 +50,7 @@
           @apply --form-checkbox-label;
         };
         --paper-checkbox-label-checked: {
-          @apply --form-checkbox-label
+          @apply --form-checkbox-label-checked;
         };
         --paper-listbox: {
           @apply --form-listbox;
@@ -68,7 +68,7 @@
           <input-generator configuration="{{item}}"></input-generator>
         </template>
         <div class="--container-slot">
-          <slot></slot>
+          <slot name="custom-section"></slot>
         </div>
         <button on-click="handleClick">{{ actionTitle }}</button>
     </div>
@@ -76,8 +76,12 @@
 
   <script>
     /**
-     * `form-evaluator-generator`
+     * `form-evaluator-generator` creates a form using an array of object with the field's configuration.
      * 
+     * ## Usage
+     * You just need add in anywhere you need and set the array of object with the correct syntax, this component uses input-generator
+     * <form-evaluator-generator fields='[{ "label" : "Name", "name": "name", "pattern" : "[a-zA-Z]*", "error" : "El nombre tiene caracteres desconocidos", "attributes" : [ { "disabled" : false }] }]'>
+       </form-evaluator-generator>
      *
      * @customElement
      * @polymer
@@ -87,10 +91,12 @@
       static get is() { return 'form-evaluator-generator'; }
       static get properties() {
         return {
+          /** Array with Objects to create the form */
           fields: {
             type: Array,
             value: []
           },
+          /** Button's title */
           actionTitle : {
             type: String,
             value: "Evalua prestamo"
