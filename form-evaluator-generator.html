@@ -68,7 +68,7 @@
           <input-generator configuration="{{item}}"></input-generator>
         </template>
         <div class="--container-slot">
-          <slot name="custom-section"></slot>
+          <slot id="slot" name="extra-content"></slot>
         </div>
         <button on-click="handleClick">{{ actionTitle }}</button>
     </div>
@@ -100,19 +100,47 @@
           actionTitle : {
             type: String,
             value: "Evalua prestamo"
+          },
+          slotDOM : {
+            type :Object
           }
         };
       }
-      handleClick (event) {
+      getValuesInputs () {
         let inputs = this.shadowRoot.querySelectorAll('input-generator');
         let data = [];
         for (let i = 0; i < inputs.length; i++) {
           data.push(inputs[i].getValue());
         }
+        return data;
+      }
+      getValuesSlot () {
+        let data = [];
+        let nodes = this.slotDOM && this.slotDOM.addedNodes[0];
+        if (nodes) {
+          let inputs = nodes.querySelectorAll('input');
+          let item;
+          for (let i = 0; i < inputs.length; i++) {
+            item = {};
+            item.name = inputs[0].name
+            item.value = inputs[0].value
+            item.hasError = inputs[0].validity && !inputs[0].validity.valid;
+            data.push(item);
+          }
+        }
+        return data;
+      }
+      handleClick (event) {
+        let data = this.getValuesInputs();
+        data = data.concat(this.getValuesSlot());
         this.dispatchEvent(new CustomEvent('form-evaluator-submitted', { bubbles: true, composed: true,detail: data }));
       }
       ready () {
         super.ready();
+        let inputsSlot = this.shadowRoot.querySelector('#slot');
+        this._observer = new Polymer.FlattenedNodesObserver(inputsSlot, (info) => {
+          this.slotDOM = info;
+        });
       }
     }
 

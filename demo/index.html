@@ -31,7 +31,11 @@
       <demo-snippet>
         <template>
           <form-evaluator-generator fields='[{ "label" : "Nombre", "pattern" : "[a-zA-Z]*", "error" : "El nombre tiene caracteres desconocidos"}]'>
+            <div slot="extra-content">
+              <input type="text" name="input" pattern="[a-zA-Z]*">
+            </div>
           </form-evaluator-generator>
+          
         </template>
       </demo-snippet>
     </div>
